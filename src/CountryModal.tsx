@@ -15,8 +15,7 @@ export const CountryModal = ({
   children,
   withModal = true,
   disableNativeModal = false,
-  animationType = 'slide',
-  animated = true,
+
   ...props
 }: ModalProps & {
   children: React.ReactNode

@@ -1,4 +1,3 @@
-import React from 'react'
 import { TextInput, StyleSheet, TextInputProps, Platform } from 'react-native'
 import { useTheme } from './CountryTheme'
 

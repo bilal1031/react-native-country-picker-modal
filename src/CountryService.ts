@@ -80,9 +80,13 @@ export const getCountryNameAsync = async (
     throw new Error('Unable to find image because imageCountries is undefined')
   }
 
-  return countries[countryCode].name
-    ? (countries[countryCode].name as TranslationLanguageCodeMap)[translation]
-    : (countries[countryCode].name as TranslationLanguageCodeMap)['common']
+  const countryName = countries[countryCode].name
+  if (typeof countryName === 'string') {
+    return countryName
+  }
+  // We know it's a TranslationLanguageCodeMap if it's not a string
+  const nameMap = countryName as unknown as TranslationLanguageCodeMap
+  return nameMap[translation] || nameMap['common']
 }
 
 export const getCountryCallingCodeAsync = async (countryCode: CountryCode) => {
@@ -137,6 +141,15 @@ export const getCountriesAsync = async (
     return []
   }
 
+  const processCountryName = (
+    countryName: string | TranslationLanguageCodeMap,
+  ): string => {
+    if (typeof countryName === 'string') {
+      return countryName
+    }
+    return countryName[translation] || countryName['common']
+  }
+
   if (preferredCountries && !withAlphaFilter) {
     const newCountryCodeList = [
       ...preferredCountries,
@@ -146,14 +159,8 @@ export const getCountriesAsync = async (
     const countries = newCountryCodeList
       .filter(isCountryPresent(countriesRaw))
       .map((cca2: CountryCode) => ({
-        ...{
-          ...countriesRaw[cca2],
-          name:
-            (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
-              translation
-            ] ||
-            (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
-        },
+        ...countriesRaw[cca2],
+        name: processCountryName(countriesRaw[cca2].name),
         cca2,
       }))
       .filter(isRegion(region))
@@ -165,14 +172,8 @@ export const getCountriesAsync = async (
   } else {
     const countries = CountryCodeList.filter(isCountryPresent(countriesRaw))
       .map((cca2: CountryCode) => ({
-        ...{
-          ...countriesRaw[cca2],
-          name:
-            (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
-              translation
-            ] ||
-            (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
-        },
+        ...countriesRaw[cca2],
+        name: processCountryName(countriesRaw[cca2].name),
         cca2,
       }))
       .filter(isRegion(region))
@@ -180,7 +181,7 @@ export const getCountriesAsync = async (
       .filter(isIncluded(countryCodes))
       .filter(isExcluded(excludeCountries))
       .sort((country1: Country, country2: Country) =>
-        (country1.name as string).localeCompare(country2.name as string),
+        String(country1.name).localeCompare(String(country2.name)),
       )
 
     return countries
