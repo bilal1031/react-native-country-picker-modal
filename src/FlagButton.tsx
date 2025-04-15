@@ -82,9 +82,7 @@ const FlagWithSomething = memo(
     return (
       <View style={styles.flagWithSomethingContainer}>
         {countryCode ? (
-          <Flag
-            {...{ withEmoji, countryCode, withFlagButton, flagSize }}
-          />
+          <Flag {...{ withEmoji, countryCode, withFlagButton, flagSize }} />
         ) : (
           <FlagText allowFontScaling={allowFontScaling}>{placeholder}</FlagText>
         )}
@@ -124,11 +122,11 @@ export interface FlagButtonProps {
 
 export const FlagButton = ({
   allowFontScaling,
-  withEmoji,
-  withCountryNameButton,
-  withCallingCodeButton,
-  withCurrencyButton,
-  withFlagButton,
+  withEmoji = true,
+  withCountryNameButton = false,
+  withCallingCodeButton = false,
+  withCurrencyButton = false,
+  withFlagButton = true,
   countryCode,
   containerButtonStyle,
   onOpen,
@@ -160,12 +158,4 @@ export const FlagButton = ({
       </View>
     </TouchableOpacity>
   )
-}
-
-FlagButton.defaultProps = {
-  withEmoji: true,
-  withCountryNameButton: false,
-  withCallingCodeButton: false,
-  withCurrencyButton: false,
-  withFlagButton: true,
 }
