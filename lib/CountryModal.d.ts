@@ -4,4 +4,4 @@ export declare const CountryModal: ({ children, withModal, disableNativeModal, .
     children: React.ReactNode;
     withModal?: boolean;
     disableNativeModal?: boolean;
-}) => React.JSX.Element;
+}) => React.JSX.Element | null;

@@ -4,7 +4,7 @@ export declare const DEFAULT_THEME: {
     backgroundColor: string;
     onBackgroundTextColor: string;
     fontSize: number;
-    fontFamily: string;
+    fontFamily: string | undefined;
     filterPlaceholderTextColor: string;
     activeOpacity: number;
     itemHeight: number;
@@ -17,7 +17,7 @@ export declare const DARK_THEME: {
     backgroundColor: string;
     onBackgroundTextColor: string;
     fontSize: number;
-    fontFamily: string;
+    fontFamily: string | undefined;
     filterPlaceholderTextColor: string;
     activeOpacity: number;
     itemHeight: number;
@@ -25,7 +25,7 @@ export declare const DARK_THEME: {
     flagSizeButton: number;
 };
 export type Theme = Partial<typeof DEFAULT_THEME>;
-declare const ThemeProvider: import("@types/react").ComponentType<{
+declare const ThemeProvider: import("react").ComponentType<{
     children: React.ReactNode;
     theme?: Partial<{
         primaryColor: string;
@@ -33,24 +33,24 @@ declare const ThemeProvider: import("@types/react").ComponentType<{
         backgroundColor: string;
         onBackgroundTextColor: string;
         fontSize: number;
-        fontFamily: string;
+        fontFamily: string | undefined;
         filterPlaceholderTextColor: string;
         activeOpacity: number;
         itemHeight: number;
         flagSize: number;
         flagSizeButton: number;
-    }>;
+    }> | undefined;
 }>, useTheme: <T = Partial<{
     primaryColor: string;
     primaryColorVariant: string;
     backgroundColor: string;
     onBackgroundTextColor: string;
     fontSize: number;
-    fontFamily: string;
+    fontFamily: string | undefined;
     filterPlaceholderTextColor: string;
     activeOpacity: number;
     itemHeight: number;
     flagSize: number;
     flagSizeButton: number;
-}>>(overrides?: import("@callstack/react-theme-provider").$DeepPartial<T>) => T;
+}>>(overrides?: import("@callstack/react-theme-provider").$DeepPartial<T> | undefined) => T;
 export { ThemeProvider, useTheme };

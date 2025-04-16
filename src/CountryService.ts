@@ -118,12 +118,12 @@ const isSubregion = (subregion?: Subregion) => (country: Country) =>
 
 const isIncluded = (countryCodes?: CountryCode[]) => (country: Country) =>
   countryCodes && countryCodes.length > 0
-    ? countryCodes.includes(country.cca2)
+    ? countryCodes.map(String).includes(country.cca2)
     : true
 
 const isExcluded = (excludeCountries?: CountryCode[]) => (country: Country) =>
   excludeCountries && excludeCountries.length > 0
-    ? !excludeCountries.includes(country.cca2)
+    ? !excludeCountries.map(String).includes(country.cca2)
     : true
 
 export const getCountriesAsync = async (
