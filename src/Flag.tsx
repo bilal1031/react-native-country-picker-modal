@@ -1,7 +1,6 @@
-import { memo } from 'react'
+import React, { memo } from 'react'
 import { Emoji } from './Emoji'
 import { CountryCode } from './types'
-import { useContext } from './CountryContext'
 import { useAsync } from 'react-async-hook'
 import {
   Image,
@@ -11,6 +10,7 @@ import {
   View,
   ActivityIndicator,
 } from 'react-native'
+import { useContext } from './CountryContext'
 
 const styles = StyleSheet.create({
   container: {
@@ -44,8 +44,8 @@ interface FlagType {
 
 const ImageFlag = memo(({ countryCode, flagSize }: FlagType) => {
   const { getImageFlagAsync } = useContext()
-  const asyncResult = useAsync(getImageFlagAsync, [countryCode])
-  if (asyncResult.loading) {
+  const { loading, result } = useAsync(getImageFlagAsync, [countryCode])
+  if (loading) {
     return <ActivityIndicator size={'small'} />
   }
   return (
@@ -55,16 +55,16 @@ const ImageFlag = memo(({ countryCode, flagSize }: FlagType) => {
         styles.imageFlag,
         { borderColor: 'transparent', height: flagSize },
       ]}
-      source={{ uri: asyncResult.result }}
+      source={{ uri: result }}
     />
   )
 })
 
 const EmojiFlag = memo(({ countryCode, flagSize }: FlagType) => {
   const { getEmojiFlagAsync } = useContext()
-  const asyncResult = useAsync(getEmojiFlagAsync, [countryCode])
+  const { loading, result } = useAsync(getEmojiFlagAsync, [countryCode])
 
-  if (asyncResult.loading) {
+  if (loading) {
     return <ActivityIndicator size={'small'} />
   }
   return (
@@ -72,7 +72,7 @@ const EmojiFlag = memo(({ countryCode, flagSize }: FlagType) => {
       style={[styles.emojiFlag, { fontSize: flagSize }]}
       allowFontScaling={false}
     >
-      <Emoji {...{ name: asyncResult.result! }} />
+      <Emoji name={result!} />
     </Text>
   )
 })

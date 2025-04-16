@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { TextProps, Text } from 'react-native'
 import { useTheme } from './CountryTheme'
 
